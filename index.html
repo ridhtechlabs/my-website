@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style="scroll-behavior: smooth;"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<title>Ridh Tech Labs | Engineering Beyond Reality</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+
+    @keyframes ambientPulse {
+      0%, 100% {
+        opacity: 0.28;
+        transform: scale(1) translate3d(0, 0, 0);
+      }
+      50% {
+        opacity: 0.42;
+        transform: scale(1.08) translate3d(12px, -8px, 0);
+      }
+    }
+    @keyframes ambientPulseAlt {
+      0%, 100% {
+        opacity: 0.32;
+        transform: scale(1.05) translate3d(0, 0, 0);
+      }
+      50% {
+        opacity: 0.20;
+        transform: scale(0.95) translate3d(-10px, 10px, 0);
+      }
+    }
+    .animate-ambient-1 {
+      animation: ambientPulse 12s ease-in-out infinite alternate;
+    }
+    .animate-ambient-2 {
+      animation: ambientPulseAlt 16s ease-in-out infinite alternate;
+    }
+    .animate-ambient-3 {
+      animation: ambientPulse 14s ease-in-out infinite alternate-reverse;
+    }
+
+    /* Thick-edge glassmorphism with light scattering effect & cursor shine */
+    .glass-card-thick {
+      position: relative;
+      background: rgba(8, 16, 12, 0.52);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 
+        inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.35),
+        inset 0 0 24px 0 rgba(121, 232, 182, 0.08),
+        0 24px 48px -12px rgba(0, 0, 0, 0.85),
+        0 0 35px -5px rgba(121, 232, 182, 0.14);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    
+    /* Interactive Card Cursor Spotlight Layer - increased to match dramatic ambient falloff */
+    .glass-card-thick::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        750px circle at var(--mouse-x, -750px) var(--mouse-y, -750px),
+        rgba(121, 232, 182, 0.18),
+        rgba(63, 228, 144, 0.06) 40%,
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .glass-card-thick:hover::before {
+      opacity: 1;
+    }
+
+    .glass-card-thick:hover {
+      border-color: rgba(183, 255, 218, 0.42);
+      box-shadow: 
+        inset 0 1px 2px 0 rgba(255, 255, 255, 0.5),
+        inset 0 0 30px 0 rgba(121, 232, 182, 0.18),
+        0 28px 56px -12px rgba(0, 0, 0, 0.9),
+        0 0 45px -5px rgba(121, 232, 182, 0.32);
+    }
+
+    .glass-pill {
+      background: rgba(10, 22, 16, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 20px -3px rgba(121, 232, 182, 0.25);
+    }
+
+    /* Floating Back to Top Glass Button */
+    .glass-top-btn {
+      background: rgba(8, 16, 12, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(183, 255, 218, 0.3);
+      box-shadow: 
+        inset 0 1px 2px 0 rgba(255, 255, 255, 0.4),
+        0 10px 25px -5px rgba(0, 0, 0, 0.8),
+        0 0 25px -2px rgba(121, 232, 182, 0.25);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-top-btn:hover {
+      border-color: rgba(183, 255, 218, 0.8);
+      background: rgba(16, 37, 27, 0.85);
+      box-shadow: 
+        inset 0 1px 2px 0 #ffffff,
+        0 14px 30px -5px rgba(0, 0, 0, 0.9),
+        0 0 35px 2px rgba(121, 232, 182, 0.6);
+      transform: translateY(-4px);
+    }
+
+    /* LIGHT MODE ADAPTATION */
+    html:not(.dark) body {
+      background-color: #F5F8F6 !important;
+      color: #10241B !important;
+    }
+
+    html:not(.dark) .ambient-bg-wrapper {
+      background-color: #F5F8F6 !important;
+    }
+
+    html:not(.dark) .ambient-orb-1 {
+      background-color: #16865b !important;
+      opacity: 0.12 !important;
+    }
+    html:not(.dark) .ambient-orb-2 {
+      background-color: #79e8b6 !important;
+      opacity: 0.18 !important;
+    }
+    html:not(.dark) .ambient-orb-3 {
+      background-color: #3fe490 !important;
+      opacity: 0.14 !important;
+    }
+    html:not(.dark) .ambient-orb-4 {
+      background-color: #16865b !important;
+      opacity: 0.08 !important;
+    }
+    html:not(.dark) .ambient-grid {
+      background-image: radial-gradient(circle at center, rgba(16, 36, 27, 0.06) 1px, transparent 1px) !important;
+    }
+
+    html:not(.dark) .glass-card-thick {
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(16, 36, 27, 0.12);
+      box-shadow: 
+        inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9),
+        0 18px 36px -10px rgba(16, 36, 27, 0.08),
+        0 0 25px -4px rgba(22, 134, 91, 0.08);
+    }
+
+    html:not(.dark) .glass-card-thick::before {
+      background: radial-gradient(
+        700px circle at var(--mouse-x, -700px) var(--mouse-y, -700px),
+        rgba(22, 134, 91, 0.14),
+        rgba(63, 228, 144, 0.05) 45%,
+        transparent 70%
+      );
+    }
+
+    html:not(.dark) .glass-card-thick:hover {
+      border-color: rgba(22, 134, 91, 0.35);
+      box-shadow: 
+        inset 0 1px 2px 0 #ffffff,
+        0 24px 44px -10px rgba(16, 36, 27, 0.12),
+        0 0 35px -4px rgba(22, 134, 91, 0.15);
+    }
+
+    html:not(.dark) .glass-pill {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(16, 36, 27, 0.12);
+      box-shadow: 
+        inset 0 1px 1px 0 #ffffff,
+        0 4px 16px -2px rgba(22, 134, 91, 0.12);
+    }
+
+    html:not(.dark) .glass-top-btn {
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(22, 134, 91, 0.25);
+      box-shadow: 
+        inset 0 1px 2px 0 #ffffff,
+        0 8px 24px -4px rgba(16, 36, 27, 0.15),
+        0 0 20px -2px rgba(22, 134, 91, 0.2);
+    }
+    html:not(.dark) .glass-top-btn:hover {
+      background: rgba(255, 255, 255, 0.98);
+      border-color: rgba(22, 134, 91, 0.5);
+      box-shadow: 
+        inset 0 1px 2px 0 #ffffff,
+        0 14px 30px -4px rgba(16, 36, 27, 0.2),
+        0 0 30px 0 rgba(22, 134, 91, 0.3);
+    }
+
+    /* Light Mode Typography & Color Switches */
+    html:not(.dark) .text-white {
+      color: #10241B !important;
+    }
+    html:not(.dark) .text-white\/90 {
+      color: #2a3d33 !important;
+    }
+    html:not(.dark) .text-white\/80 {
+      color: #52665B !important;
+    }
+    html:not(.dark) .text-white\/70 {
+      color: #637a6d !important;
+    }
+    html:not(.dark) .text-white\/60 {
+      color: #7b9487 !important;
+    }
+    html:not(.dark) .border-white\/10,
+    html:not(.dark) .border-white\/15,
+    html:not(.dark) .border-white\/20,
+    html:not(.dark) .border-white\/25 {
+      border-color: rgba(16, 36, 27, 0.12) !important;
+    }
+    html:not(.dark) .bg-white\/5 {
+      background-color: rgba(16, 36, 27, 0.04) !important;
+    }
+    html:not(.dark) .bg-white\/10 {
+      background-color: rgba(16, 36, 27, 0.07) !important;
+    }
+    html:not(.dark) .bg-black\/60,
+    html:not(.dark) .bg-black\/70,
+    html:not(.dark) .bg-black\/80 {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      border-color: rgba(16, 36, 27, 0.12) !important;
+    }
+    html:not(.dark) .bg-white {
+      background-color: #10241B !important;
+      color: #FFFFFF !important;
+    }
+    html:not(.dark) .bg-white:hover {
+      background-color: #16865b !important;
+      color: #FFFFFF !important;
+    }
+    html:not(.dark) input,
+    html:not(.dark) select,
+    html:not(.dark) textarea {
+      background-color: rgba(255, 255, 255, 0.85) !important;
+      border-color: rgba(16, 36, 27, 0.18) !important;
+      color: #10241B !important;
+    }
+    html:not(.dark) input::placeholder,
+    html:not(.dark) textarea::placeholder {
+      color: #7b9487 !important;
+    }
+    html:not(.dark) #mobile-drawer {
+      background-color: rgba(245, 248, 246, 0.98) !important;
+      border-color: rgba(16, 36, 27, 0.12) !important;
+    }
+
+    /* CURSOR FOLLOWER SPOTLIGHT (Upgraded to ~700px radius for majestic cinematic illumination) */
+    #cursor-follower {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 1400px;
+      height: 1400px;
+      margin-left: -700px;
+      margin-top: -700px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+      background: radial-gradient(
+        circle at center, 
+        rgba(121, 232, 182, 0.28) 0%, 
+        rgba(63, 228, 144, 0.16) 28%, 
+        rgba(0, 200, 120, 0.07) 50%, 
+        rgba(0, 200, 120, 0.02) 68%, 
+        transparent 75%
+      );
+      filter: blur(60px);
+      transition: transform 0.07s ease-out, opacity 0.35s ease;
+      opacity: 0;
+      mix-blend-mode: screen;
+    }
+    html:not(.dark) #cursor-follower {
+      background: radial-gradient(
+        circle at center, 
+        rgba(22, 134, 91, 0.20) 0%, 
+        rgba(63, 228, 144, 0.10) 30%, 
+        rgba(22, 134, 91, 0.04) 52%, 
+        transparent 72%
+      );
+      mix-blend-mode: multiply;
+      filter: blur(70px);
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-dim": "#0d1512",
+            "light-surface": "#FFFFFF",
+            "on-secondary-container": "#004c2a",
+            "primary-fixed-dim": "#6cdbaa",
+            "surface-variant": "#2e3734",
+            "inverse-primary": "#006c4b",
+            "surface-container-high": "#232c29",
+            "on-secondary": "#00391e",
+            "border-cyan-glow": "rgba(121, 232, 182, 0.18)",
+            "outline": "#87948b",
+            "on-primary-container": "#006848",
+            "tertiary-fixed-dim": "#77daa8",
+            "text-primary": "#FFFFFF",
+            "light-border": "rgba(16, 36, 27, 0.12)",
+            "border-subtle": "rgba(255, 255, 255, 0.12)",
+            "tertiary-container": "#84e7b4",
+            "error-container": "#93000a",
+            "on-tertiary-fixed": "#002113",
+            "on-tertiary": "#003823",
+            "inverse-on-surface": "#2a322f",
+            "primary-container": "#79e8b6",
+            "surface-container-highest": "#2e3734",
+            "on-surface-variant": "#bdcac0",
+            "on-background": "#FFFFFF",
+            "surface-container": "#19211f",
+            "surface-container-low": "#151d1b",
+            "on-error": "#690005",
+            "on-error-container": "#ffdad6",
+            "secondary": "#3fe490",
+            "on-primary-fixed-variant": "#005137",
+            "light-bg": "#F5F8F6",
+            "on-secondary-fixed-variant": "#00522e",
+            "text-muted": "#E0E7E3",
+            "on-primary-fixed": "#002114",
+            "on-secondary-fixed": "#00210f",
+            "on-surface": "#FFFFFF",
+            "inverse-surface": "#dbe5e0",
+            "bg-abyss": "#020504",
+            "primary": "#b7ffda",
+            "tertiary-fixed": "#93f6c3",
+            "on-primary": "#003825",
+            "secondary-container": "#00c777",
+            "surface-container-lowest": "#08100d",
+            "secondary-fixed": "#60fea8",
+            "outline-variant": "#3e4942",
+            "light-secondary": "#EAF0EC",
+            "surface-panel": "#0c1813",
+            "on-tertiary-container": "#006845",
+            "tertiary": "#b9ffd7",
+            "background": "#020504",
+            "surface-bright": "#323b38",
+            "secondary-fixed-dim": "#3be18e",
+            "error": "#ffb4ab",
+            "bg-subtle": "#050b08",
+            "light-text-secondary": "#52665B",
+            "light-text-primary": "#10241B",
+            "surface": "#020504",
+            "on-tertiary-fixed-variant": "#005235",
+            "surface-tint": "#6cdbaa",
+            "primary-fixed": "#89f8c5"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "3xl": "1.5rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "display-hero": ["Syne", "sans-serif"],
+            "headline-lg": ["Syne", "sans-serif"],
+            "headline-md": ["Syne", "sans-serif"],
+            "headline-sm": ["Syne", "sans-serif"],
+            "body-lg": ["Space Mono", "monospace"],
+            "body-md": ["Space Mono", "monospace"],
+            "body-sm": ["Space Mono", "monospace"],
+            "label-code": ["Space Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-black text-white font-body-md transition-colors duration-300 antialiased selection:bg-primary selection:text-on-primary relative overflow-x-hidden">
+<!-- ======================================================== -->
+<!-- CURSOR FOLLOWING INTERACTIVE SPOTLIGHT (~700px RADIUS)   -->
+<!-- ======================================================== -->
+<div aria-hidden="true" id="cursor-follower"></div>
+<!-- ======================================================== -->
+<!-- FIXED AMBIENT BACKGROUND GLOW (STATIC ON SCROLL)         -->
+<!-- ======================================================== -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#020504] ambient-bg-wrapper transition-colors duration-500">
+<!-- Top-Left Corner Emerald Glow -->
+<div class="ambient-orb-1 absolute -top-32 -left-32 w-[650px] h-[650px] md:w-[850px] md:h-[850px] rounded-full bg-[#00c878] opacity-30 blur-[150px] animate-ambient-1 transition-all duration-500"></div>
+<!-- Mid-Right Edge Emerald Glow -->
+<div class="ambient-orb-2 absolute top-1/2 -right-40 -translate-y-1/2 w-[600px] h-[750px] md:w-[800px] md:h-[900px] rounded-full bg-[#79e8b6] opacity-25 blur-[170px] animate-ambient-2 transition-all duration-500"></div>
+<!-- Bottom-Left Edge Soft Pulse Glow -->
+<div class="ambient-orb-3 absolute -bottom-40 -left-20 w-[550px] h-[650px] md:w-[750px] md:h-[850px] rounded-full bg-[#00c878] opacity-30 blur-[160px] animate-ambient-3 transition-all duration-500"></div>
+<!-- Center Subtle Ambient Depth Glow -->
+<div class="ambient-orb-4 absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-[#79e8b6] opacity-15 blur-[180px] transition-all duration-500"></div>
+<!-- Subtle High-End Grid Texture Overlay -->
+<div class="ambient-grid absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:3rem_3rem]"></div>
+</div>
+<!-- ======================================================== -->
+<!-- FOREGROUND SCROLLING WRAPPER                             -->
+<!-- ======================================================== -->
+<div class="relative z-10 w-full">
+<!-- ======================================================== -->
+<!-- NAVIGATION BAR                                           -->
+<!-- ======================================================== -->
+<header class="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 pt-3">
+<div class="max-w-7xl mx-auto h-16 px-4 md:px-6 flex items-center justify-between rounded-2xl glass-card-thick shadow-[0_8px_32px_rgba(0,0,0,0.8)]">
+<!-- Brand Logo -->
+<a class="flex items-center gap-3 group relative z-10 nav-link-smooth" href="#hero" id="nav-brand-logo">
+<img alt="RTL Logo" class="h-8 w-auto object-contain rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCSBU3FAuTvb3cvJwBZLSP8tir6AeJXFA0fxRxEOB0gvZjH0JQFQWXq23y2o_sa_bUdZuNM79ZlQxvd3xde6KZSbEbgcQetx8HabdfQzKJp8W6RlSksrOgyXt1Q0ZFLcKJCr3PifAuayb8RSdLVzUZNnayQpfYuv_zdybrxBCvSisIpe48GpWW18IW3V20zUDWdzccr3glmW_DBcler1LGVeAVWv21BRWqK5kjwqxZXqGEu8oTZXRbAQ"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-base md:text-lg font-bold text-white tracking-wider group-hover:text-primary transition-colors leading-none">RIDH TECH LABS</span>
+<span class="font-label-code text-[10px] text-white/70 tracking-widest uppercase mt-0.5">SPATIAL ENGINEERING</span>
+</div>
+</a>
+<!-- Desktop Navigation -->
+<nav class="hidden lg:flex items-center gap-8 relative z-10">
+<a class="nav-link-smooth text-xs uppercase tracking-widest font-label-code text-white font-bold hover:text-primary transition-colors" href="#hero">Home</a>
+<a class="nav-link-smooth text-xs uppercase tracking-widest font-label-code text-white/80 hover:text-white transition-colors" href="#capabilities">Capabilities</a>
+<a class="nav-link-smooth text-xs uppercase tracking-widest font-label-code text-white/80 hover:text-white transition-colors" href="#demos">Video Demos</a>
+<a class="nav-link-smooth text-xs uppercase tracking-widest font-label-code text-white/80 hover:text-white transition-colors" href="#work">Work</a>
+<a class="nav-link-smooth text-xs uppercase tracking-widest font-label-code text-white/80 hover:text-white transition-colors" href="#contact">Contact</a>
+</nav>
+<!-- Action Items -->
+<div class="flex items-center gap-3 relative z-10">
+<button aria-label="Toggle UI Theme" class="w-9 h-9 flex items-center justify-center rounded-xl border border-white/20 bg-white/5 hover:border-white/40 text-white transition-all shadow-[0_0_15px_rgba(121,232,182,0.15)] cursor-pointer" id="theme-toggle" title="Toggle Light / Dark Mode" type="button">
+<span class="material-symbols-outlined text-[18px] block dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[18px] hidden dark:block">light_mode</span>
+</button>
+<button class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-white text-black font-label-code text-xs uppercase font-bold tracking-wider hover:bg-primary hover:text-on-primary transition-all shadow-[0_0_20px_rgba(121,232,182,0.3)] hover:shadow-[0_0_30px_rgba(183,255,218,0.7)] cursor-pointer" id="header-contact-btn" type="button">
+          Get in Touch
+        </button>
+<button aria-label="Toggle Navigation Menu" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl border border-white/20 bg-white/5 text-white hover:text-primary transition-colors" id="mobile-nav-toggle" type="button">
+<span class="material-symbols-outlined text-[20px]">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Mobile Drawer -->
+<div class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl transition-all duration-300 transform translate-x-full flex flex-col justify-between p-6 border-l border-white/20 hidden" id="mobile-drawer">
+<div class="flex items-center justify-between border-b border-white/10 pb-4">
+<div class="flex items-center gap-3">
+<img alt="RTL Logo" class="h-7 w-auto object-contain rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCSBU3FAuTvb3cvJwBZLSP8tir6AeJXFA0fxRxEOB0gvZjH0JQFQWXq23y2o_sa_bUdZuNM79ZlQxvd3xde6KZSbEbgcQetx8HabdfQzKJp8W6RlSksrOgyXt1Q0ZFLcKJCr3PifAuayb8RSdLVzUZNnayQpfYuv_zdybrxBCvSisIpe48GpWW18IW3V20zUDWdzccr3glmW_DBcler1LGVeAVWv21BRWqK5kjwqxZXqGEu8oTZXRbAQ"/>
+<span class="font-headline-sm text-base text-white tracking-wider leading-none">RIDH TECH LABS</span>
+</div>
+<button aria-label="Close Menu" class="w-9 h-9 flex items-center justify-center rounded-xl border border-white/20 text-white hover:text-primary" id="mobile-drawer-close" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<nav class="flex flex-col gap-6 py-8">
+<a class="text-white font-headline-sm text-xl uppercase tracking-wider mobile-link" href="#hero">Home</a>
+<a class="text-white/80 hover:text-white font-headline-sm text-xl uppercase tracking-wider mobile-link" href="#capabilities">Capabilities</a>
+<a class="text-white/80 hover:text-white font-headline-sm text-xl uppercase tracking-wider mobile-link" href="#demos">Video Demos</a>
+<a class="text-white/80 hover:text-white font-headline-sm text-xl uppercase tracking-wider mobile-link" href="#work">Work</a>
+<a class="text-white/80 hover:text-white font-headline-sm text-xl uppercase tracking-wider mobile-link" href="#contact">Contact</a>
+</nav>
+<div class="border-t border-white/10 pt-6">
+<a class="w-full inline-flex items-center justify-center py-3 rounded-xl bg-white text-black font-label-code text-xs uppercase font-bold tracking-wider hover:bg-primary hover:text-on-primary transition-all shadow-[0_0_20px_rgba(121,232,182,0.3)] mobile-link" href="#contact">
+        Get in Touch
+      </a>
+</div>
+</div>
+<main class="w-full">
+<!-- ======================================================== -->
+<!-- 01. SLEEK MODERN HERO SECTION                            -->
+<!-- ======================================================== -->
+<section class="relative w-full min-h-screen flex items-center justify-center pt-36 pb-32 px-4 md:px-8" id="hero">
+<div class="max-w-6xl mx-auto w-full flex flex-col items-center text-center relative z-10 space-y-10">
+<!-- Modern Glass Pill Tagline -->
+<div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-pill">
+<span class="w-2 h-2 rounded-full bg-[#00c878] shadow-[0_0_10px_#79e8b6] animate-pulse"></span>
+<span class="font-label-code text-xs uppercase tracking-widest text-white font-bold">NEXT-GEN SPATIAL COMPUTING &amp; XR</span>
+</div>
+<!-- Massive Cinematic Hero Typography (Crisp White with Green Ambient Halo behind) -->
+<div class="relative max-w-5xl">
+<div class="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-[#00c878]/25 to-transparent blur-[90px] rounded-full pointer-events-none"></div>
+<h1 class="font-display-hero text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white tracking-tight font-extrabold uppercase leading-[0.95]">
+          Engineering <br/>
+<span class="text-white drop-shadow-[0_0_35px_rgba(121,232,182,0.3)]">
+            Beyond Reality.
+          </span>
+</h1>
+</div>
+<!-- Crisp Subtitle in Pure Crisp White (NO PARAGRAPHS) -->
+<div class="font-headline-sm text-base sm:text-xl md:text-2xl text-white/90 font-normal max-w-3xl tracking-wide">
+          Transforming spatial intelligence, XR simulation, and industrial digital twins into deterministic visual experiences.
+        </div>
+<!-- Sleek High-End CTAs -->
+<div class="flex flex-wrap items-center justify-center gap-4 pt-3">
+<button class="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-white hover:bg-primary text-black hover:text-on-primary font-label-code text-xs uppercase font-bold tracking-wider transition-all duration-300 shadow-[0_0_30px_rgba(121,232,182,0.35)] hover:shadow-[0_0_45px_rgba(183,255,218,0.7)] cursor-pointer" id="hero-explore-btn" type="button">
+<span>Explore Capabilities</span>
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</button>
+<button class="inline-flex items-center gap-2 px-8 py-4 rounded-xl glass-card-thick text-white hover:border-white/50 font-label-code text-xs uppercase font-bold tracking-wider transition-all duration-300 cursor-pointer" id="hero-contact-btn" type="button">
+<span class="relative z-10">Get in Touch</span>
+<span class="material-symbols-outlined text-[18px] text-white relative z-10">arrow_forward</span>
+</button>
+</div>
+<!-- Hero Showcase Banner with Thick-Edge Glass Container -->
+<div class="w-full max-w-5xl mt-16 rounded-3xl glass-card-thick p-2.5 sm:p-3.5">
+<div class="relative w-full aspect-[21/9] sm:aspect-[2.4/1] rounded-2xl overflow-hidden bg-black relative z-10">
+<img alt="Next-Gen Spatial Computing Cockpit" class="w-full h-full object-cover object-center opacity-85 hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZpAlYMMITf1l3PoW6d9NjcZ2UTQWRGzaPx4dSpeMz5sRtcVlrld1BwRJ7rAGFoqWFLU_jhsq4SxZma7hNWOiWnQUZc8WvNDh11CzvIrduy7SFoMgCsFXKuJZCkJoSg5zt1SbYlnhhMjHpfQpXBevyiej8ZiKfw9jCE7j0Ppp14EH4zDvzpRjxnVPbd3LLOLQTCYYEkI1DEzXgqVrKQ3mtYEHpkqIr_iiFlVVQF-fi"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+<!-- Video Player Controls Overlay -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#79e8b6] text-black flex items-center justify-center backdrop-blur-md shadow-[0_0_40px_rgba(121,232,182,0.75)] hover:scale-110 transition-transform cursor-pointer" onclick="handleDemoAction('Showreel 2025 // 4K Immersive highlights')">
+<span class="material-symbols-outlined text-3xl sm:text-4xl translate-x-0.5">play_arrow</span>
+</button>
+</div>
+<div class="absolute bottom-4 left-6 right-6 flex items-center justify-between text-xs font-label-code text-white">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#00c878] shadow-[0_0_8px_#79e8b6] animate-ping"></span>
+<span class="font-bold tracking-wider text-white">SHOWREEL 2025 // IMMERSIVE HIGHLIGHTS</span>
+</div>
+<span class="text-white/70 hidden sm:inline">02:40 · 4K 120FPS</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 02. CAPABILITIES: VISUAL FEATURE CHIPS (NO DIVIDER LINE)  -->
+<!-- ======================================================== -->
+<section class="w-full py-32 px-4 md:px-8 relative" id="capabilities">
+<div class="max-w-7xl mx-auto space-y-14">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-2">
+<span class="font-label-code text-xs uppercase tracking-widest text-white font-bold">CORE CAPABILITIES</span>
+<h2 class="font-headline-lg text-3xl md:text-5xl font-bold text-white tracking-tight uppercase">
+              Engineering Disciplines
+            </h2>
+</div>
+<div class="font-label-code text-xs text-white/80 uppercase tracking-wider">
+            UNITY · UNREAL · OPENXR · WEBGPU
+          </div>
+</div>
+<!-- 4 Minimal Clean Architecture Glass Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="p-6 rounded-3xl glass-card-thick transition-all duration-300 flex flex-col justify-between space-y-6 group">
+<div class="space-y-4 relative z-10">
+<div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all shadow-[0_0_15px_rgba(121,232,182,0.1)]">
+<span class="material-symbols-outlined text-2xl">view_in_ar</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-white">Extended Reality</h3>
+</div>
+<div class="flex flex-wrap gap-2 pt-2 border-t border-white/10 relative z-10">
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Pass-Through MR</span>
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Spatial Audio</span>
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">VisionOS Ready</span>
+</div>
+</div>
+<div class="p-6 rounded-3xl glass-card-thick transition-all duration-300 flex flex-col justify-between space-y-6 group">
+<div class="space-y-4 relative z-10">
+<div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all shadow-[0_0_15px_rgba(121,232,182,0.1)]">
+<span class="material-symbols-outlined text-2xl">precision_manufacturing</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-white">VR Simulators</h3>
+</div>
+<div class="flex flex-wrap gap-2 pt-2 border-t border-white/10 relative z-10">
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Industrial Safety</span>
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Haptic Integration</span>
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Multi-User Net</span>
+</div>
+</div>
+<div class="p-6 rounded-3xl glass-card-thick transition-all duration-300 flex flex-col justify-between space-y-6 group">
+<div class="space-y-4 relative z-10">
+<div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all shadow-[0_0_15px_rgba(121,232,182,0.1)]">
+<span class="material-symbols-outlined text-2xl">hub</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-white">Digital Twins</h3>
+</div>
+<div class="flex flex-wrap gap-2 pt-2 border-t border-white/10 relative z-10">
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Real-Time IoT</span>
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Millimeter CAD</span>
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Predictive Telemetry</span>
+</div>
+</div>
+<div class="p-6 rounded-3xl glass-card-thick transition-all duration-300 flex flex-col justify-between space-y-6 group">
+<div class="space-y-4 relative z-10">
+<div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all shadow-[0_0_15px_rgba(121,232,182,0.1)]">
+<span class="material-symbols-outlined text-2xl">deployed_code</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-white">Spatial Overlays</h3>
+</div>
+<div class="flex flex-wrap gap-2 pt-2 border-t border-white/10 relative z-10">
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Markerless SLAM</span>
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">Field Diagnostics</span>
+<span class="px-2.5 py-1 rounded-lg bg-black/60 text-[11px] font-label-code text-white border border-white/15">WebXR Polyfill</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 03. VIDEO DEMOS / CINEMATIC SHOWCASE (NO DIVIDER LINE)   -->
+<!-- ======================================================== -->
+<section class="w-full py-32 px-4 md:px-8 relative" id="demos">
+<div class="max-w-7xl mx-auto space-y-14">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-2">
+<span class="font-label-code text-xs uppercase tracking-widest text-white font-bold">INTERACTIVE ARCHIVE</span>
+<h2 class="font-headline-lg text-3xl md:text-5xl font-bold text-white tracking-tight uppercase">
+              Video Demo Showcase
+            </h2>
+</div>
+<span class="font-label-code text-xs text-white/80 uppercase">CLICK TO PREVIEW DEMO FEEDS</span>
+</div>
+<!-- 4 Cinematic Video Player Cards with Thick-Edge Glass Containers -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Video Demo 1: Extended Reality -->
+<div class="rounded-3xl glass-card-thick overflow-hidden group transition-all duration-300">
+<div class="relative aspect-video w-full overflow-hidden bg-black relative z-10">
+<img alt="Extended Reality Demo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZpAlYMMITf1l3PoW6d9NjcZ2UTQWRGzaPx4dSpeMz5sRtcVlrld1BwRJ7rAGFoqWFLU_jhsq4SxZma7hNWOiWnQUZc8WvNDh11CzvIrduy7SFoMgCsFXKuJZCkJoSg5zt1SbYlnhhMjHpfQpXBevyiej8ZiKfw9jCE7j0Ppp14EH4zDvzpRjxnVPbd3LLOLQTCYYEkI1DEzXgqVrKQ3mtYEHpkqIr_iiFlVVQF-fi"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+<!-- Video Controls UI -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-14 h-14 rounded-full bg-[#79e8b6] text-black flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(121,232,182,0.65)] cursor-pointer" onclick="handleDemoAction('Extended Reality (XR)')">
+<span class="material-symbols-outlined text-3xl translate-x-0.5">play_arrow</span>
+</button>
+</div>
+<!-- Sleek Mock Scrubber Bar -->
+<div class="absolute bottom-3 left-4 right-4 flex items-center gap-3 font-label-code text-[11px] text-white">
+<div class="h-1 flex-1 bg-white/20 rounded-full overflow-hidden">
+<div class="w-2/5 h-full bg-[#00c878] shadow-[0_0_8px_#79e8b6]"></div>
+</div>
+<span>01:42</span>
+</div>
+</div>
+<div class="p-6 flex items-center justify-between relative z-10">
+<div>
+<h3 class="font-headline-sm text-xl font-bold text-white group-hover:text-primary transition-colors">
+                  Extended Reality (XR)
+                </h3>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-xs font-label-code text-white/70">#PassThroughMR</span>
+<span class="text-xs font-label-code text-white/70">#MultiUserSync</span>
+<span class="text-xs font-label-code text-white/70">#HandTracking</span>
+</div>
+</div>
+<button class="deploy-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white hover:text-black text-white border border-white/25 font-label-code text-xs uppercase font-bold transition-all shadow-[0_0_15px_rgba(121,232,182,0.1)] hover:shadow-[0_0_20px_rgba(183,255,218,0.4)] cursor-pointer" data-target="Extended Reality (XR)" type="button">
+                Deploy
+              </button>
+</div>
+</div>
+<!-- Video Demo 2: Virtual Reality -->
+<div class="rounded-3xl glass-card-thick overflow-hidden group transition-all duration-300">
+<div class="relative aspect-video w-full overflow-hidden bg-black relative z-10">
+<img alt="Virtual Reality Industrial Training" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwBRS09B0volpIVRYhkDANV771c3HNjQ46zCOjafC9GYhFv4Zk8ZHRinA4rBehd9feI_o4r9VF3P-moVCuVOENuyN8A2zOQ3XDmSTl_J86FcGqVV-TuHo_KAtGAhMykL3S8LhVIQQnJ8trBkaLqXMabCyxxig_X1VsYVU72Npt-ofTwSaSbH9Yj8VwhpUkT-UElwG75jjoH-kmtrXWP6V_s7-1o_kPJZXpEYVhf5-t"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+<!-- Video Controls UI -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-14 h-14 rounded-full bg-[#79e8b6] text-black flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(121,232,182,0.65)] cursor-pointer" onclick="handleDemoAction('Virtual Reality (VR) Training')">
+<span class="material-symbols-outlined text-3xl translate-x-0.5">play_arrow</span>
+</button>
+</div>
+<!-- Sleek Mock Scrubber Bar -->
+<div class="absolute bottom-3 left-4 right-4 flex items-center gap-3 font-label-code text-[11px] text-white">
+<div class="h-1 flex-1 bg-white/20 rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-[#00c878] shadow-[0_0_8px_#79e8b6]"></div>
+</div>
+<span>03:15</span>
+</div>
+</div>
+<div class="p-6 flex items-center justify-between relative z-10">
+<div>
+<h3 class="font-headline-sm text-xl font-bold text-white group-hover:text-primary transition-colors">
+                  Virtual Reality (VR)
+                </h3>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-xs font-label-code text-white/70">#IndustrialSafety</span>
+<span class="text-xs font-label-code text-white/70">#ZeroHazard</span>
+<span class="text-xs font-label-code text-white/70">#Haptics</span>
+</div>
+</div>
+<button class="deploy-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white hover:text-black text-white border border-white/25 font-label-code text-xs uppercase font-bold transition-all shadow-[0_0_15px_rgba(121,232,182,0.1)] hover:shadow-[0_0_20px_rgba(183,255,218,0.4)] cursor-pointer" data-target="Virtual Reality (VR) Training" type="button">
+                Deploy
+              </button>
+</div>
+</div>
+<!-- Video Demo 3: Augmented Reality -->
+<div class="rounded-3xl glass-card-thick overflow-hidden group transition-all duration-300">
+<div class="relative aspect-video w-full overflow-hidden bg-black relative z-10">
+<img alt="Augmented Reality CAD Overlays" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwBRS09B0volpIVRYhkDANV771c3HNjQ46zCOjafC9GYhFv4Zk8ZHRinA4rBehd9feI_o4r9VF3P-moVCuVOENuyN8A2zOQ3XDmSTl_J86FcGqVV-TuHo_KAtGAhMykL3S8LhVIQQnJ8trBkaLqXMabCyxxig_X1VsYVU72Npt-ofTwSaSbH9Yj8VwhpUkT-UElwG75jjoH-kmtrXWP6V_s7-1o_kPJZXpEYVhf5-t"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+<!-- Video Controls UI -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-14 h-14 rounded-full bg-[#79e8b6] text-black flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(121,232,182,0.65)] cursor-pointer" onclick="handleDemoAction('Augmented Reality (AR) Overlays')">
+<span class="material-symbols-outlined text-3xl translate-x-0.5">play_arrow</span>
+</button>
+</div>
+<!-- Sleek Mock Scrubber Bar -->
+<div class="absolute bottom-3 left-4 right-4 flex items-center gap-3 font-label-code text-[11px] text-white">
+<div class="h-1 flex-1 bg-white/20 rounded-full overflow-hidden">
+<div class="w-1/2 h-full bg-[#00c878] shadow-[0_0_8px_#79e8b6]"></div>
+</div>
+<span>02:10</span>
+</div>
+</div>
+<div class="p-6 flex items-center justify-between relative z-10">
+<div>
+<h3 class="font-headline-sm text-xl font-bold text-white group-hover:text-primary transition-colors">
+                  Augmented Reality (AR)
+                </h3>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-xs font-label-code text-white/70">#CADOverlay</span>
+<span class="text-xs font-label-code text-white/70">#FieldGuidance</span>
+<span class="text-xs font-label-code text-white/70">#ARCore</span>
+</div>
+</div>
+<button class="deploy-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white hover:text-black text-white border border-white/25 font-label-code text-xs uppercase font-bold transition-all shadow-[0_0_15px_rgba(121,232,182,0.1)] hover:shadow-[0_0_20px_rgba(183,255,218,0.4)] cursor-pointer" data-target="Augmented Reality (AR) Overlays" type="button">
+                Deploy
+              </button>
+</div>
+</div>
+<!-- Video Demo 4: Real-Time Digital Twins -->
+<div class="rounded-3xl glass-card-thick overflow-hidden group transition-all duration-300">
+<div class="relative aspect-video w-full overflow-hidden bg-black relative z-10">
+<img alt="Real-Time Digital Twin Simulation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZpAlYMMITf1l3PoW6d9NjcZ2UTQWRGzaPx4dSpeMz5sRtcVlrld1BwRJ7rAGFoqWFLU_jhsq4SxZma7hNWOiWnQUZc8WvNDh11CzvIrduy7SFoMgCsFXKuJZCkJoSg5zt1SbYlnhhMjHpfQpXBevyiej8ZiKfw9jCE7j0Ppp14EH4zDvzpRjxnVPbd3LLOLQTCYYEkI1DEzXgqVrKQ3mtYEHpkqIr_iiFlVVQF-fi"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+<!-- Video Controls UI -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-14 h-14 rounded-full bg-[#79e8b6] text-black flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(121,232,182,0.65)] cursor-pointer" onclick="handleDemoAction('Real-Time Digital Twins')">
+<span class="material-symbols-outlined text-3xl translate-x-0.5">play_arrow</span>
+</button>
+</div>
+<!-- Sleek Mock Scrubber Bar -->
+<div class="absolute bottom-3 left-4 right-4 flex items-center gap-3 font-label-code text-[11px] text-white">
+<div class="h-1 flex-1 bg-white/20 rounded-full overflow-hidden">
+<div class="w-5/6 h-full bg-[#00c878] shadow-[0_0_8px_#79e8b6]"></div>
+</div>
+<span>04:05</span>
+</div>
+</div>
+<div class="p-6 flex items-center justify-between relative z-10">
+<div>
+<h3 class="font-headline-sm text-xl font-bold text-white group-hover:text-primary transition-colors">
+                  Real-Time Digital Twins
+                </h3>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-xs font-label-code text-white/70">#LiveTelemetry</span>
+<span class="text-xs font-label-code text-white/70">#IndustrialIoT</span>
+<span class="text-xs font-label-code text-white/70">#WebGPU</span>
+</div>
+</div>
+<button class="deploy-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white hover:text-black text-white border border-white/25 font-label-code text-xs uppercase font-bold transition-all shadow-[0_0_15px_rgba(121,232,182,0.1)] hover:shadow-[0_0_20px_rgba(183,255,218,0.4)] cursor-pointer" data-target="Real-Time Digital Twins" type="button">
+                Deploy
+              </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 04. FEATURED CLIENT WORK (NO DIVIDER LINE)               -->
+<!-- ======================================================== -->
+<section class="w-full py-32 px-4 md:px-8 relative" id="work">
+<div class="max-w-7xl mx-auto space-y-14">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-2">
+<span class="font-label-code text-xs uppercase tracking-widest text-white font-bold">PORTFOLIO</span>
+<h2 class="font-headline-lg text-3xl md:text-5xl font-bold text-white tracking-tight uppercase">
+              Proven Deployments
+            </h2>
+</div>
+<span class="font-label-code text-xs text-white/80 uppercase">SELECTED ENTERPRISE PRODUCTIONS</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Project 1 -->
+<div class="rounded-3xl glass-card-thick overflow-hidden group transition-all duration-300">
+<div class="relative h-72 w-full overflow-hidden bg-black relative z-10">
+<img alt="Project AeroXR Flight Simulator" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZpAlYMMITf1l3PoW6d9NjcZ2UTQWRGzaPx4dSpeMz5sRtcVlrld1BwRJ7rAGFoqWFLU_jhsq4SxZma7hNWOiWnQUZc8WvNDh11CzvIrduy7SFoMgCsFXKuJZCkJoSg5zt1SbYlnhhMjHpfQpXBevyiej8ZiKfw9jCE7j0Ppp14EH4zDvzpRjxnVPbd3LLOLQTCYYEkI1DEzXgqVrKQ3mtYEHpkqIr_iiFlVVQF-fi"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 border border-white/20 font-label-code text-[11px] text-white uppercase font-bold shadow-[0_0_15px_rgba(121,232,182,0.15)]">
+                Aerospace Sim
+              </div>
+</div>
+<div class="p-6 flex items-center justify-between relative z-10">
+<div>
+<h3 class="font-headline-sm text-2xl font-bold text-white group-hover:text-primary transition-colors">
+                  Project AeroXR
+                </h3>
+<span class="text-xs font-label-code text-white/70">Varjo XR-4 · High-Fidelity Flight Deck Simulator</span>
+</div>
+<a class="nav-link-smooth w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all shadow-[0_0_15px_rgba(121,232,182,0.15)]" href="#contact">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="rounded-3xl glass-card-thick overflow-hidden group transition-all duration-300">
+<div class="relative h-72 w-full overflow-hidden bg-black relative z-10">
+<img alt="Project HoloGrid Substation AR" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwBRS09B0volpIVRYhkDANV771c3HNjQ46zCOjafC9GYhFv4Zk8ZHRinA4rBehd9feI_o4r9VF3P-moVCuVOENuyN8A2zOQ3XDmSTl_J86FcGqVV-TuHo_KAtGAhMykL3S8LhVIQQnJ8trBkaLqXMabCyxxig_X1VsYVU72Npt-ofTwSaSbH9Yj8VwhpUkT-UElwG75jjoH-kmtrXWP6V_s7-1o_kPJZXpEYVhf5-t"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 border border-white/20 font-label-code text-[11px] text-white uppercase font-bold shadow-[0_0_15px_rgba(121,232,182,0.15)]">
+                Energy Grid AR
+              </div>
+</div>
+<div class="p-6 flex items-center justify-between relative z-10">
+<div>
+<h3 class="font-headline-sm text-2xl font-bold text-white group-hover:text-primary transition-colors">
+                  Project HoloGrid
+                </h3>
+<span class="text-xs font-label-code text-white/70">Substation AR Assistant · Real-Time CAD Overlays</span>
+</div>
+<a class="nav-link-smooth w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all shadow-[0_0_15px_rgba(121,232,182,0.15)]" href="#contact">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 05. CLEAN & MINIMAL CONTACT SECTION (NO DIVIDER LINE)    -->
+<!-- ======================================================== -->
+<section class="w-full py-32 px-4 md:px-8 relative" id="contact">
+<div class="max-w-5xl mx-auto space-y-14">
+<div class="text-center space-y-3">
+<span class="font-label-code text-xs uppercase tracking-widest text-white font-bold">START A COLLABORATION</span>
+<h2 class="font-headline-lg text-3xl md:text-5xl font-bold text-white tracking-tight uppercase">
+            Let's Engineer What's Next
+          </h2>
+</div>
+<div class="rounded-3xl glass-card-thick p-6 sm:p-10">
+<form class="space-y-6 relative z-10" id="clean-contact-form" onsubmit="event.preventDefault(); submitCleanInquiry();">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block font-label-code text-xs text-white uppercase" for="name">Your Name</label>
+<input class="w-full rounded-xl bg-black/70 px-4 py-3 border border-white/20 focus:border-white text-white font-body-sm outline-none transition-colors" id="name" placeholder="Dr. Jordan Vance" required="" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-code text-xs text-white uppercase" for="email">Business Email</label>
+<input class="w-full rounded-xl bg-black/70 px-4 py-3 border border-white/20 focus:border-white text-white font-body-sm outline-none transition-colors" id="email" placeholder="name@organization.com" required="" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label-code text-xs text-white uppercase" for="scope">Technology Focus</label>
+<select class="w-full rounded-xl bg-black/70 px-4 py-3 border border-white/20 focus:border-white text-white font-body-sm outline-none transition-colors" id="scope">
+<option value="Extended Reality (XR)">Extended Reality (XR)</option>
+<option value="Virtual Reality (VR) Training">Virtual Reality (VR) Training</option>
+<option value="Augmented Reality (AR) Overlays">Augmented Reality (AR) Overlays</option>
+<option value="Real-Time Digital Twins">Real-Time Digital Twins</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="block font-label-code text-xs text-white uppercase" for="message">Project Objectives</label>
+<textarea class="w-full rounded-xl bg-black/70 px-4 py-3 border border-white/20 focus:border-white text-white font-body-sm outline-none transition-colors" id="message" placeholder="Outline your spatial computing requirements or target platforms..." required="" rows="3"></textarea>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+<div class="flex items-center gap-2 text-xs font-label-code text-white/70">
+<span class="material-symbols-outlined text-[16px] text-white">lock</span>
+<span>Direct Response Within 24 Hours</span>
+</div>
+<button class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white hover:bg-primary text-black hover:text-on-primary font-label-code text-xs uppercase font-bold tracking-wider transition-all duration-200 shadow-[0_0_25px_rgba(121,232,182,0.35)] hover:shadow-[0_0_35px_rgba(183,255,218,0.7)] cursor-pointer" id="submit-btn" type="submit">
+                Transmit Inquiry
+              </button>
+</div>
+<div class="hidden p-4 rounded-xl bg-[#00c878]/15 border border-[#79e8b6] text-white font-label-code text-xs text-center" id="clean-feedback">
+              Inquiry successfully transmitted. An enterprise architect will connect shortly.
+            </div>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- ======================================================== -->
+<!-- SLEEK MINIMAL FOOTER (NO DIVIDER LINE)                   -->
+<!-- ======================================================== -->
+<footer class="w-full py-16 px-4 md:px-8 mt-16">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-3">
+<img alt="RTL Logo" class="h-7 w-auto object-contain rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCSBU3FAuTvb3cvJwBZLSP8tir6AeJXFA0fxRxEOB0gvZjH0JQFQWXq23y2o_sa_bUdZuNM79ZlQxvd3xde6KZSbEbgcQetx8HabdfQzKJp8W6RlSksrOgyXt1Q0ZFLcKJCr3PifAuayb8RSdLVzUZNnayQpfYuv_zdybrxBCvSisIpe48GpWW18IW3V20zUDWdzccr3glmW_DBcler1LGVeAVWv21BRWqK5kjwqxZXqGEu8oTZXRbAQ"/>
+<span class="font-headline-sm text-sm font-bold text-white tracking-wider leading-none">RIDH TECH LABS</span>
+</div>
+<div class="flex items-center gap-6 font-label-code text-xs text-white/70">
+<a class="nav-link-smooth hover:text-white transition-colors" href="#hero">Home</a>
+<a class="nav-link-smooth hover:text-white transition-colors" href="#capabilities">Capabilities</a>
+<a class="nav-link-smooth hover:text-white transition-colors" href="#demos">Demos</a>
+<a class="nav-link-smooth hover:text-white transition-colors" href="#work">Work</a>
+<a class="nav-link-smooth hover:text-white transition-colors" href="#contact">Contact</a>
+</div>
+<div class="font-label-code text-xs text-white/60">
+        © 2025 Ridh Tech Labs. All rights reserved.
+      </div>
+</div>
+</footer>
+</div> <!-- End foreground scrolling wrapper -->
+<!-- ======================================================== -->
+<!-- FLOATING BACK TO TOP BUTTON                              -->
+<!-- ======================================================== -->
+<button aria-label="Back to Top" class="glass-top-btn fixed bottom-8 right-8 z-40 w-12 h-12 rounded-2xl flex items-center justify-center text-white opacity-0 translate-y-4 pointer-events-none transition-all duration-300 group cursor-pointer" id="back-to-top" title="Back to top" type="button">
+<span class="material-symbols-outlined text-2xl group-hover:-translate-y-1 transition-transform duration-300">arrow_upward</span>
+</button>
+<!-- ======================================================== -->
+<!-- INTERACTIVE TOAST FEEDBACK MODAL (DEMO INITIALIZATION)   -->
+<!-- ======================================================== -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-6 transition-all duration-300 flex items-center gap-3 px-5 py-3 rounded-2xl glass-card-thick shadow-2xl border border-primary/50 text-white font-label-code text-xs" id="demo-toast">
+<span class="w-2.5 h-2.5 rounded-full bg-[#00c878] shadow-[0_0_10px_#79e8b6] animate-ping"></span>
+<span id="toast-message">Initializing Demo Sandbox...</span>
+</div>
+<!-- Interactive Scripts: Follower, Card Glass Coordinates, Theme, Drawer & Smooth Scroll -->
+<script>
+    (function() {
+      // 1. Theme Toggle Support (Functional Dark / Light Mode with .light and .dark toggle)
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', function() {
+          const root = document.documentElement;
+          if (root.classList.contains('dark')) {
+            root.classList.remove('dark');
+            root.classList.add('light');
+            localStorage.setItem('rtl_theme', 'light');
+          } else {
+            root.classList.remove('light');
+            root.classList.add('dark');
+            localStorage.setItem('rtl_theme', 'dark');
+          }
+        });
+      }
+
+      // Check saved user preference
+      const savedTheme = localStorage.getItem('rtl_theme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+
+      // 2. Cursor Follower (Massive ~700px radius spotlight) & Glass Card Reflection Coordinates
+      const follower = document.getElementById('cursor-follower');
+      const glassCards = document.querySelectorAll('.glass-card-thick');
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let followerX = mouseX;
+      let followerY = mouseY;
+      let isVisible = false;
+
+      window.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!isVisible && follower) {
+          follower.style.opacity = '1';
+          isVisible = true;
+        }
+
+        // Calculate card-relative mouse coordinates for dramatic glass refraction spotlight
+        glassCards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+      });
+
+      window.addEventListener('mouseleave', function() {
+        if (follower) follower.style.opacity = '0';
+        isVisible = false;
+      });
+
+      // Smooth cinematic physics loop for spotlight
+      function animateCursor() {
+        followerX += (mouseX - followerX) * 0.12;
+        followerY += (mouseY - followerY) * 0.12;
+        if (follower) {
+          follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+        }
+        requestAnimationFrame(animateCursor);
+      }
+      requestAnimationFrame(animateCursor);
+
+      // 3. Navigation Smooth Scroll & Header Action Handlers
+      function scrollToTarget(selector, andFocus) {
+        if (selector === '#hero' || selector === '#top') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+        const targetEl = document.querySelector(selector);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (andFocus) {
+            setTimeout(() => {
+              const input = document.getElementById('name');
+              if (input) input.focus();
+            }, 650);
+          }
+        }
+      }
+
+      // Smooth scroll for all internal anchors
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href && href !== '#') {
+            e.preventDefault();
+            scrollToTarget(href, false);
+          }
+        });
+      });
+
+      // Header "Get in Touch" Button
+      const headerContactBtn = document.getElementById('header-contact-btn');
+      if (headerContactBtn) {
+        headerContactBtn.addEventListener('click', () => scrollToTarget('#contact', true));
+      }
+
+      // Hero "Explore Capabilities" & "Get in Touch" buttons
+      const heroExploreBtn = document.getElementById('hero-explore-btn');
+      if (heroExploreBtn) {
+        heroExploreBtn.addEventListener('click', () => scrollToTarget('#capabilities', false));
+      }
+      const heroContactBtn = document.getElementById('hero-contact-btn');
+      if (heroContactBtn) {
+        heroContactBtn.addEventListener('click', () => scrollToTarget('#contact', true));
+      }
+
+      // 4. Back to Top Floating Button Functionality
+      const backToTopBtn = document.getElementById('back-to-top');
+      window.addEventListener('scroll', function() {
+        if (!backToTopBtn) return;
+        if (window.scrollY > 400) {
+          backToTopBtn.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+          backToTopBtn.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        } else {
+          backToTopBtn.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+          backToTopBtn.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        }
+      }, { passive: true });
+
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      // 5. Deploy Feedback Modal / Toast
+      const toast = document.getElementById('demo-toast');
+      const toastMsg = document.getElementById('toast-message');
+      let toastTimeout;
+
+      window.handleDemoAction = function(targetName) {
+        if (!toast) return;
+        clearTimeout(toastTimeout);
+        if (toastMsg) {
+          toastMsg.textContent = `Initializing Demo Sandbox: ${targetName}...`;
+        }
+        toast.classList.remove('opacity-0', 'translate-y-6', 'pointer-events-none');
+        toast.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+
+        toastTimeout = setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-6', 'pointer-events-none');
+          toast.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        }, 3200);
+      };
+
+      document.querySelectorAll('.deploy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const originalText = this.innerText;
+          const target = this.getAttribute('data-target') || 'Spatial Simulation';
+          this.innerText = 'INITIALIZING...';
+          this.classList.add('bg-primary', 'text-black');
+          
+          window.handleDemoAction(target);
+
+          // Auto pre-select technology focus dropdown in contact form
+          const scopeSelect = document.getElementById('scope');
+          if (scopeSelect && target) {
+            for (let i = 0; i < scopeSelect.options.length; i++) {
+              if (scopeSelect.options[i].value.includes(target) || target.includes(scopeSelect.options[i].value)) {
+                scopeSelect.selectedIndex = i;
+                break;
+              }
+            }
+          }
+
+          setTimeout(() => {
+            this.innerText = 'DEPLOYED';
+            setTimeout(() => {
+              this.innerText = originalText;
+              this.classList.remove('bg-primary', 'text-black');
+            }, 1800);
+          }, 800);
+        });
+      });
+
+      // 6. Mobile Drawer Toggle
+      const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+      const mobileDrawer = document.getElementById('mobile-drawer');
+      const mobileDrawerClose = document.getElementById('mobile-drawer-close');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      function openDrawer() {
+        mobileDrawer.classList.remove('hidden');
+        setTimeout(() => mobileDrawer.classList.remove('translate-x-full'), 10);
+      }
+
+      function closeDrawer() {
+        mobileDrawer.classList.add('translate-x-full');
+        setTimeout(() => mobileDrawer.classList.add('hidden'), 300);
+      }
+
+      if (mobileNavToggle && mobileDrawer) {
+        mobileNavToggle.addEventListener('click', openDrawer);
+      }
+      if (mobileDrawerClose && mobileDrawer) {
+        mobileDrawerClose.addEventListener('click', closeDrawer);
+      }
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeDrawer);
+      });
+
+      // 7. Contact Form Submission
+      window.submitCleanInquiry = function() {
+        const submitBtn = document.getElementById('submit-btn');
+        const feedback = document.getElementById('clean-feedback');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Transmitting...';
+        }
+        setTimeout(() => {
+          if (feedback) feedback.classList.remove('hidden');
+          if (submitBtn) submitBtn.textContent = 'Transmitted';
+        }, 600);
+      };
+    })();
+  </script>
+</body></html>
